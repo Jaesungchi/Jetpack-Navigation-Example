@@ -95,3 +95,24 @@ class FirstFragment : Fragment(){
 ```
 
 위와 같은방식으로 Second, Third 파일 및 xml 파일을 생성해줍니다.
+
+## 3. Activity에 Fragment 뷰 추가
+
+단일 Activity로 사용할 Activity에 Fragment뷰를 추가한다. 
+
+필수로 name을 설정하고, navGraph와 defaultNavHost 설정을 해야한다.
+
+```xml
+<fragment
+        android:id="@+id/my_nav_host_fragment"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:defaultNavHost="true"
+        app:navGraph="@navigation/nav_graph"/>
+```
+
+여기서 나오는 nav_graph는 다음에 설정한다.
+
+
+
