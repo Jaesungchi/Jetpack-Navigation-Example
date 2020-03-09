@@ -250,3 +250,43 @@ res/anim 폴더에 각 애니메이션 파일을 추가 해주자.
         app:exitAnim="@anim/slide_out_left" />
 ```
 
+## 추가2) Global Action을 활용한 코드 정리
+
+현재 nav_graph.xml 파일에는 각 fragment로 이동하는 액션이 중복되어 있습니다. 이러한 코드를 grobal action을 통해 여러 객체에서 같은 action을 사용하도록 할 수 있습니다.
+
+```xml
+<action android:id="@+id/action_global_first_screen"
+        app:destination="@id/first_screen"
+        app:popEnterAnim="@anim/slide_in_left"
+        app:popExitAnim="@anim/slide_out_right"
+        app:enterAnim="@anim/slide_in_right"
+        app:exitAnim="@anim/slide_out_left"
+        />
+```
+
+위와 같이 기존 nav_graph파일의 Fragment 내의 action코드를 지우고 각 Fragment로 이동하는 코드를 밖에 작성합니다.
+
+이후 Fragment 파일에 코드를 바꾸어 줍니다.
+
+*FristFragment.kt
+
+```kotlin
+class FirstFragment : Fragment(){
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        val view = inflater.inflate(R.layout.fragment_first_screen,container,false)
+        view.findViewById<Button>(R.id.to_second_from_first).setOnClickListener{
+            Navigation.findNavController(view).navigate(R.id.action_global_second_screen)
+        }
+        view.findViewById<Button>(R.id.to_third_from_first).setOnClickListener{
+            Navigation.findNavController(view).navigate(R.id.action_global_third_screen)
+        }
+        return view
+    }
+}
+```
+
+이렇게 Global로 기능을 불러 코드를 정리 할 수 있습니다.
