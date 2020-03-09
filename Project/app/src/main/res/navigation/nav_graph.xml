@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools = "http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@+id/first_screen">
+
+    <fragment
+        android:id="@+id/first_screen"
+        android:name="com.kotlin.jaesungchi.jetpack_navigation.FirstFragment"
+        android:label="London screen"
+        tools:layout="@layout/fragment_first_screen">
+        <action
+            android:id="@+id/action_first_screen_to_second_screen"
+            app:destination="@id/second_screen"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            />
+        <action
+            android:id="@+id/action_first_screen_to_third_screen"
+            app:destination="@id/third_screen"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            />
+    </fragment>
+
+    <fragment
+        android:id="@+id/second_screen"
+        android:name="com.kotlin.jaesungchi.jetpack_navigation.SecondFragment"
+        android:label="Paris screen"
+        tools:layout="@layout/fragment_second_screen">
+        <action
+            android:id="@+id/action_second_screen_to_first_screen"
+            app:destination="@id/first_screen"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            />
+        <action
+            android:id="@+id/action_second_screen_to_third_screen"
+            app:destination="@id/third_screen"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            />
+    </fragment>
+
+    <fragment
+        android:id="@+id/third_screen"
+        android:name="com.kotlin.jaesungchi.jetpack_navigation.ThirdFragment"
+        android:label="Italy screen"
+        tools:layout="@layout/fragment_third_screen">
+        <action
+            android:id="@+id/action_third_screen_to_first_screen"
+            app:destination="@id/first_screen"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            />
+        <action
+            android:id="@+id/action_third_screen_to_second_screen"
+            app:destination="@id/second_screen"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            />
+    </fragment>
+
+</navigation>

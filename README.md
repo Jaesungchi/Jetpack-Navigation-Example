@@ -76,7 +76,7 @@ class FirstFragment : Fragment(){
         app:layout_constraintStart_toStartOf="parent"/>
 
     <Button
-        android:id="@+id/to_third_from_one"
+        android:id="@+id/to_third_from_first"
         style="@style/Widget.AppCompat.Button.Borderless"
         android:layout_width="wrap_content"
         android:layout_height="48dp"
@@ -114,5 +114,139 @@ class FirstFragment : Fragment(){
 
 여기서 나오는 nav_graph는 다음에 설정한다.
 
+## 4. Graph 정의
 
+/res/navigation에 nav_graph.xml파일을 만들어줍니다.
+
+Graph의 기능은 관계를 화면간의 관계를 정의해줍니다.
+
+여기서 startDestination은 시작할 화면을 정해줍니다.
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools = "http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@+id/first_screen">
+
+    <fragment
+        android:id="@+id/first_screen"
+        android:name="com.kotlin.jaesungchi.jetpack_navigation.FirstFragment"
+        android:label="London screen"
+        tools:layout="@layout/fragment_first_screen">
+    </fragment>
+
+    <fragment
+        android:id="@+id/second_screen"
+        android:name="com.kotlin.jaesungchi.jetpack_navigation.SecondFragment"
+        android:label="Paris screen"
+        tools:layout="@layout/fragment_second_screen">
+    </fragment>
+
+    <fragment
+        android:id="@+id/third_screen"
+        android:name="com.kotlin.jaesungchi.jetpack_navigation.ThirdFragment"
+        android:label="Italy screen"
+        tools:layout="@layout/fragment_third_screen">
+    </fragment>
+
+</navigation>
+```
+
+이후 Design 탭을 통해서 각 스크린간 관계를 표시해 줍니다.
+
+![image](https://user-images.githubusercontent.com/37828448/76203500-15b48a00-623a-11ea-889f-9ada48302f63.png)
+
+이제 각 Fragment에서 버튼을 눌렀을 때에 이동하는 코드를 작성합니다.
+
+코드는 Navigation Controller객체를 이용하며 이 Controller는 Host에 보여지고 있는 View를 변경해주는 역할을 합니다.
+
+*FirstFrgment.kt
+
+```kotlin
+class FirstFragment : Fragment(){
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        val view = inflater.inflate(R.layout.fragment_first_screen,container,false)
+        view.findViewById<Button>(R.id.to_second_from_first).setOnClickListener{
+            Navigation.findNavController(view).navigate(R.id.action_first_screen_to_second_screen)
+        }
+        view.findViewById<Button>(R.id.to_third_from_first).setOnClickListener{
+            Navigation.findNavController(view).navigate(R.id.action_first_screen_to_third_screen)
+        }
+        return view
+    }
+}
+```
+
+위와 같이 버튼이벤트 코드를 각 Fragment 파일마다 넣어 줍니다.
+
+## 추가1) 애니메이션 추가
+
+화면 전환 애니메이션을 추가하여 효과를 주자.
+
+res/anim 폴더에 각 애니메이션 파일을 추가 해주자.
+
+*slide_in_left.xml
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android">
+    <translate android:fromXDelta="-100%" android:toXDelta="0%"
+        android:fromYDelta="0%" android:toYDelta="0%"
+        android:duration="700"/>
+</set>
+```
+
+*slide_in_right.xml
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android">
+    <translate android:fromXDelta="100%" android:toXDelta="0%"
+        android:fromYDelta="0%" android:toYDelta="0%"
+        android:duration="700"/>
+</set>
+```
+
+*slide_out_left.xml
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android">
+    <translate android:fromXDelta="0%" android:toXDelta="-100%"
+        android:fromYDelta="0%" android:toYDelta="0%"
+        android:duration="700"/>
+</set>
+```
+
+*slide_out_right.xml
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android">
+    <translate android:fromXDelta="0%" android:toXDelta="100%"
+        android:fromYDelta="0%" android:toYDelta="0%"
+        android:duration="700"/>
+</set>
+```
+
+이후 nav_graph.xml 파일에 생긴 Action 함수에 각 이벤트를 넣어 줍니다.
+
+- enterAnim : action 수행시 이동화면에 대한 애니메이션
+- exitAnim : action 수행시 현재 화면에 대한 애니매이션
+- popEnterAnim : 뒤로가기를 하여 돌아갈때 돌아오는 화면에 대한 애니매이션.
+- popExitAnim : 뒤로가기를 하여 돌아갈때 종료되는 화면에 대한 애니매이션.
+
+```xml
+<action ... 
+        app:popEnterAnim="@anim/slide_in_left"
+        app:popExitAnim="@anim/slide_out_right"
+        app:enterAnim="@anim/slide_in_right"
+        app:exitAnim="@anim/slide_out_left" />
+```
 
